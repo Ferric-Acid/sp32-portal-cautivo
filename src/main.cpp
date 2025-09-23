@@ -167,7 +167,29 @@ void loop(){
         server.handleClient();
       }
     } else if (Eleccion == 3) {
-        // Solicitar SSID y contraseña desde aquí. 
+        // Conectar a WiFi
+        Serial.println("Escribe el SSID:");
+        SerialBT.println("Escribe el SSID:");
+        
+        // Esperar SSID
+        while(!SerialBT.available()) {
+          delay(10);
+        }
+        ssid = SerialBT.readStringUntil('\n');
+        ssid.trim();
+        
+        Serial.println("Escribe la contraseña:");
+        SerialBT.println("Escribe la contraseña:");
+        
+        // Esperar contraseña
+        while(!SerialBT.available()) {
+          delay(10);
+        }
+        password = SerialBT.readStringUntil('\n');
+        password.trim();
+        
+        // Conectar
+        WiFi.begin(ssid.c_str(), password.c_str());
 
         int Intentos = 0;
         while ((WiFi.status() != WL_CONNECTED) && (Intentos <= IntentosConexion)) {
@@ -309,4 +331,5 @@ void initiAP(char* ap_ssid, char* ap_password) {
     server.on("/ncsi.txt", handleRoot);        // Microsoft Network Connectivity Status Indicator
     server.onNotFound(handleNotFound);         // Capturar cualquier otra petición
     server.begin();
+
 }
