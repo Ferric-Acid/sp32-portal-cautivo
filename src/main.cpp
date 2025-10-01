@@ -439,6 +439,14 @@ void activarModoBLE() {
                       BLECharacteristic::PROPERTY_NOTIFY
                     );                    
   
+  BLEDescriptor *descriptor1 = new BLEDescriptor(BLEUUID((uint16_t)0x2901));
+  descriptor1->setValue("Micrófono");
+  pCharacteristic_1->addDescriptor(descriptor1);
+
+  BLEDescriptor *descriptor2 = new BLEDescriptor(BLEUUID((uint16_t)0x2901));
+  descriptor2->setValue("Lux");
+  pCharacteristic_2->addDescriptor(descriptor2);
+
   pService->start();
   BLEDevice::getAdvertising()->start();
   
